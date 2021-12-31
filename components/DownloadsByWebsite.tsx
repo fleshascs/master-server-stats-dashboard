@@ -32,11 +32,11 @@ const DownloadsByWebsite: FC = () => {
 
   return (
     <Card title={title}>
-      <div className='px-2 pb-8'>
-        {targetDomain ? (
+      {targetDomain ? (
+        <div className='px-2 pb-8'>
           <FilterButton title={targetDomain} onClick={() => setTargetDomain('')} />
-        ) : null}
-      </div>
+        </div>
+      ) : null}
       <div className='overflow-y-auto max-h-64'>
         <Table>
           <thead>
