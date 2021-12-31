@@ -12,7 +12,9 @@ type CountryStats = {
 
 const MasterServerVisits: FC = () => {
   const { isLoading, error, data } = useQuery<CountryStats[], Error>('analytics', () =>
-    fetch('https://fleshas.lt/php/analytics/test9-2.php').then((res) => res.json())
+    fetch('https://fleshas.lt/php/analytics/masterServerByCountryStats.php').then((res) =>
+      res.json()
+    )
   );
 
   const title = 'Master Server visits by country';
