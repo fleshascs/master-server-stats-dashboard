@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { Table, Td, Th } from './table';
 import { FilterIcon } from '@heroicons/react/outline';
 import FilterButton from './FilterButton';
+import styles from './table.module.css';
 
 type StatsByWebsite = {
   domain: string;
@@ -41,12 +42,24 @@ const DownloadsByWebsite: FC = () => {
         <Table>
           <thead>
             <tr>
-              <Th>Url</Th>
-              <Th>Today</Th>
-              <Th>Yesterday</Th>
-              <Th>1st month</Th>
-              <Th>2nd month</Th>
-              <Th>Increase</Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>Url</span>
+              </Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>Today</span>
+              </Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>Yesterday</span>
+              </Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>1st month</span>
+              </Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>2nd month</span>
+              </Th>
+              <Th className={clsx('align-bottom', styles.responsiveth)}>
+                <span>Increase</span>
+              </Th>
             </tr>
           </thead>
 
@@ -60,7 +73,7 @@ const DownloadsByWebsite: FC = () => {
                     <a href='#' className='group' onClick={() => setTargetDomain(item.domain)}>
                       {item.domain}
 
-                      <FilterIcon className='h-5 w-5 ml-4 invisible group-hover:visible inline' />
+                      <FilterIcon className='h-4 w-4 ml-4 invisible group-hover:visible inline' />
                     </a>
                   )}
                 </Td>
