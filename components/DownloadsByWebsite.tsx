@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import Card from './Card';
 import { useQuery } from 'react-query';
 import { Table, Td, Th } from './table';
+import styles from './table/table.module.css';
 import { FilterIcon } from '@heroicons/react/outline';
 import FilterButton from './FilterButton';
-import styles from './table.module.css';
 
 type StatsByWebsite = {
   domain: string;
