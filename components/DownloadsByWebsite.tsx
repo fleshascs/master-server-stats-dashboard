@@ -6,6 +6,7 @@ import { Table, Td, Th } from './table';
 import styles from './table/table.module.css';
 import { FilterIcon } from '@heroicons/react/outline';
 import FilterButton from './FilterButton';
+import { calculateIncrease } from './utils';
 
 type StatsByWebsite = {
   domain: string;
@@ -30,6 +31,19 @@ const DownloadsByWebsite: FC = () => {
 
   if (isLoading) return <Card title={title}>Loading...</Card>;
   if (error) return <Card title={title}>An error has occurred</Card>;
+
+  const { today, yesterday, firstMonth, secondMonth } = data.reduce(
+    (totals, item) => {
+      totals.today += Number(item.today);
+      totals.yesterday += Number(item.yesterday);
+      totals.firstMonth += Number(item.last30days);
+      totals.secondMonth += Number(item.last60days);
+      return totals;
+    },
+    { today: 0, yesterday: 0, firstMonth: 0, secondMonth: 0 }
+  );
+
+  const increase = calculateIncrease(secondMonth, firstMonth);
 
   return (
     <Card title={title}>
@@ -64,6 +78,20 @@ const DownloadsByWebsite: FC = () => {
           </thead>
 
           <tbody className='bg-white dark:bg-gray-800'>
+            <tr className='border-b-2 border-dashed border-gray-300'>
+              <Td>Total</Td>
+              <Td>{today}</Td>
+              <Td>{yesterday}</Td>
+              <Td>{firstMonth}</Td>
+              <Td>{secondMonth}</Td>
+              <Td>
+                <span
+                  className={clsx('font-bold', increase > 0 ? 'text-lime-500' : 'text-red-500')}
+                >
+                  {increase}%
+                </span>
+              </Td>
+            </tr>
             {data.map((item) => (
               <tr key={item.domain}>
                 <Td className='break-all'>

@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { Table, Td, Th } from './table';
 import { FilterLink } from './FilterButton';
 import clsx from 'clsx';
+import { calculateIncrease } from './utils';
 
 type StatsByWebsite = {
   'ga:country': string;
@@ -11,11 +12,6 @@ type StatsByWebsite = {
   sessions: string;
   sessions2: string;
 };
-
-function calculateIncrease(startingValue: number, finalValue: number) {
-  const value = ((finalValue - startingValue) / startingValue) * 100;
-  return Math.round(value * 10) / 10;
-}
 
 const GoogleAnalyticsTraffic: FC<{ target: string }> = ({ target }) => {
   const { isLoading, error, data } = useQuery<StatsByWebsite[], Error>(
