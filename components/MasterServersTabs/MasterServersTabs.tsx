@@ -1,31 +1,11 @@
-import clsx from 'clsx';
 import { FC, useState } from 'react';
 import { Tab, TabPanel, Tabs } from '../Tabs';
 import MasterServerVisitsByCountry from '../masterServerAnalytics/VisitsByCountry';
 import MasterServerVisitsChart from '../masterServerAnalytics/VisitsChart';
-import { useQueries, useQuery } from 'react-query';
-import Card from '../Card';
-
-const Indicator: FC<{ isAlive: boolean; isLoading: boolean }> = ({ isAlive, isLoading }) => {
-  if (isLoading)
-    return <img className='h-5 w-5 animate-spin' src={require('../../images/loading.svg')} />;
-  return (
-    <div className='flex h-3 w-3 relative  mr-1'>
-      <div
-        className={clsx(
-          'absolute inline-flex h-full w-full rounded-full opacity-75',
-          isAlive ? 'bg-green-500' : 'animate-ping bg-red-500'
-        )}
-      />
-      <div
-        className={clsx(
-          'relative inline-flex rounded-full h-3 w-3',
-          isAlive ? 'bg-green-500' : 'bg-red-500'
-        )}
-      />
-    </div>
-  );
-};
+import { useQueries } from 'react-query';
+import { QueryMasterServerPlayers } from './QueryMasterServerPlayers';
+import { Indicator } from '../Indicator';
+import { AddServerInput } from './AddServerInput';
 
 const TabTitle: FC<{ isLoading: boolean; isAlive: boolean; title: string }> = ({
   isAlive,
@@ -40,36 +20,15 @@ const TabTitle: FC<{ isLoading: boolean; isAlive: boolean; title: string }> = ({
   );
 };
 
-const QueryMasterServerPlayers: FC<{ server: string; isAlive: boolean }> = ({
-  server,
-  isAlive
-}) => {
-  const { isLoading, error, data } = useQuery(['ms-server-list-players', server], () =>
-    fetch(process.env.apiUrl + '/api/vmsq/' + server).then((res) => res.json())
-  );
-
-  if (isLoading) return <Card title={server}>Loading...</Card>;
-  if (error) return <Card title={server}>An error has occurred</Card>;
-
-  return (
-    <Card title={`${server} is ${isAlive || data ? 'online' : 'offline'}`}>
-      <div>
-        <h4 className='p-3 '>Server list:</h4>
-        <ul className='list-decimal list-inside overflow-y-auto max-h-96 p-3'>
-          {data.map((ip) => (
-            <li className='p-1' key={ip}>
-              {ip}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Card>
-  );
-};
+const serverList = [
+  'fleshas.lt:27010',
+  'masterserveris.audioklip.lt:27010',
+  'masterserveris2.audioklip.lt:27011'
+];
 
 const MasterServersTabs: FC = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const servers = ['fleshas.lt:27010', 'masterserveris.audioklip.lt:27010'];
+  const [servers, setServers] = useState(serverList);
 
   const results = useQueries(
     servers.map((server) => ({
@@ -81,17 +40,24 @@ const MasterServersTabs: FC = () => {
 
   return (
     <>
-      <Tabs value={activeTab} onChange={(i) => setActiveTab(i)}>
-        <Tab title='Visits by Country' />
-        {servers.map((server, i) => (
-          <Tab
-            title={
-              <TabTitle title={server} isAlive={results[i].data} isLoading={results[i].isLoading} />
-            }
-            key={server}
-          />
-        ))}
-      </Tabs>
+      <div className='flex'>
+        <Tabs value={activeTab} onChange={(i) => setActiveTab(i)}>
+          <Tab title='Visits by Country' />
+          {servers.map((server, i) => (
+            <Tab
+              title={
+                <TabTitle
+                  title={server}
+                  isAlive={results[i].data}
+                  isLoading={results[i].isLoading}
+                />
+              }
+              key={server}
+            />
+          ))}
+        </Tabs>
+        <AddServerInput onAdd={(s) => setServers((servers) => [...servers, s])} />
+      </div>
       <div className='flex flex-col lg:flex-row lg:space-x-4  mb-10'>
         <div className='basis-1/3 rounded'>
           <TabPanel value={activeTab} index={0}>
