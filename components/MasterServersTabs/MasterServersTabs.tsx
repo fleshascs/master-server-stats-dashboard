@@ -50,7 +50,7 @@ const MasterServersTabs: FC = () => {
 
   return (
     <>
-      <div className='flex'>
+      <div className='flex flex-col lg:flex-row'>
         <Tabs value={activeTab} onChange={(i) => setActiveTab(i)}>
           <Tab title='Visits by Country' />
           {servers.map((server, i) => (
