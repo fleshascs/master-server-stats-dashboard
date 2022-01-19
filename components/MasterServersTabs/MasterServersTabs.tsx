@@ -31,10 +31,20 @@ const MasterServersTabs: FC = () => {
   const [servers, setServers] = useState(serverList);
 
   const results = useQueries(
-    servers.map((server) => ({
-      queryKey: ['ms-server-list', server],
-      queryFn: () =>
-        fetch(process.env.apiUrl + '/api/vmsq/ping/' + server).then((res) => res.json())
+    servers.map((server, i) => ({
+      queryKey: ['ms-server-list', i],
+      queryFn: () => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        return fetch(process.env.apiUrl + '/api/vmsq/ping/' + server, {
+          signal: controller.signal
+        })
+          .then((res) => res.json())
+          .finally(() => {
+            clearTimeout(timeoutId);
+          });
+      },
+      retry: 0
     }))
   );
 
