@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
 
-const Card: FC<{ children: ReactNode; title: string; className?: string }> = ({
+const Card: FC<{ children: ReactNode; title: ReactNode; className?: string }> = ({
   children,
   title,
   className
