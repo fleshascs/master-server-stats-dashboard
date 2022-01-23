@@ -4,7 +4,7 @@ import Card from './Card';
 import { useQuery } from 'react-query';
 import { Table, Td, Th } from './table';
 import styles from './table/table.module.css';
-import { FilterIcon } from '@heroicons/react/outline';
+import { ExternalLinkIcon, FilterIcon } from '@heroicons/react/outline';
 import FilterButton from './FilterButton';
 import { calculateIncrease } from './utils';
 
@@ -96,11 +96,13 @@ const DownloadsByWebsite: FC = () => {
               <tr key={item.domain}>
                 <Td className='break-all'>
                   {targetDomain ? (
-                    item.domain
+                    <a href={item.domain} className='group' target='_blank'>
+                      {item.domain}
+                      <ExternalLinkIcon className='h-4 w-4 ml-4 invisible group-hover:visible inline' />
+                    </a>
                   ) : (
                     <a href='#' className='group' onClick={() => setTargetDomain(item.domain)}>
                       {item.domain}
-
                       <FilterIcon className='h-4 w-4 ml-4 invisible group-hover:visible inline' />
                     </a>
                   )}
