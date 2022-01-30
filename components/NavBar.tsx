@@ -4,7 +4,11 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'AmxBans', href: '/amxbans', current: false },
-  { name: 'Master Server Stats', href: '/master-server-stats', current: true }
+  {
+    name: 'Master Server Stats',
+    href: process.env.basePath + '/master-server-stats',
+    current: true
+  }
 ];
 
 function classNames(...classes) {

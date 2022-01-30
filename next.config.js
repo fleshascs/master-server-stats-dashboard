@@ -1,15 +1,13 @@
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
+const cfg = require('./site.config');
 
 const nextConfig = {
-  env: {
-    // apiUrl: 'http://localhost:4567'
-    apiUrl: 'https://fleshas.lt'
-  },
+  env: cfg,
   images: {
     disableStaticImages: true
   },
-  basePath: process.env.NODE_ENV == 'production' ? '/amxbans/stats' : ''
+  basePath: cfg.basePath
 };
 
 module.exports = withPlugins(
