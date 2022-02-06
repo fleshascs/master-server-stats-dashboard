@@ -18,12 +18,23 @@ type Stats = {
   date: string;
   uniques: number;
 };
+type MasterStats = {
+  ms: number;
+  color: string;
+  label: string;
+  stats: Stats[];
+};
 
 const options = {
   responsive: true,
   plugins: {
     legend: {
       display: false
+    }
+  },
+  scales: {
+    x: {
+      stacked: true
     }
   }
 };
@@ -38,20 +49,24 @@ const labels = [
   '6 days ago'
 ];
 
-const buildData = (chartData: Stats[]) => ({
-  labels: chartData.map((item, i) => labels[chartData.length - i - 1] ?? item.date),
-  datasets: [
-    {
-      label: "Unique IP's",
-      data: chartData.map((item) => item.uniques),
-      backgroundColor: '#424c58'
-    }
-  ]
-});
+const buildData = (masters: MasterStats[]) => {
+  return {
+    labels: masters[0].stats.map((item, i) => labels[masters[0].stats.length - i - 1] ?? item.date),
+    datasets: masters.reverse().map((master) => {
+      return {
+        label: master.label,
+        data: master.stats.map((item) => item.uniques),
+        backgroundColor: master.color
+      };
+    })
+  };
+};
 
 const VisitsChart: FC = () => {
-  const { isLoading, error, data } = useQuery<Stats[], Error>('master-week-visits', () =>
-    fetch('https://fleshas.lt/test/test9.php').then(async (res) => (await res.json()).reverse())
+  const { isLoading, error, data } = useQuery<MasterStats[], Error>('master-week-visits', () =>
+    fetch('https://fleshas.lt/php/analytics/masterServerLast30DaysStats.php').then(
+      async (res) => await res.json()
+    )
   );
 
   const title = 'Master Server unique visits';
