@@ -53,7 +53,7 @@ const labels = [
 const buildData = (masters: MasterStats[]) => {
   return {
     labels: masters[0].stats.map((item, i) => labels[masters[0].stats.length - i - 1] ?? item.date),
-    datasets: masters.reverse().map((master) => {
+    datasets: masters.map((master) => {
       return {
         label: master.label,
         data: master.stats.map((item) => item.uniques),
@@ -65,8 +65,8 @@ const buildData = (masters: MasterStats[]) => {
 
 const VisitsChart: FC = () => {
   const { isLoading, error, data } = useQuery<MasterStats[], Error>('master-week-visits', () =>
-    fetch('https://fleshas.lt/php/analytics/masterServerLast30DaysStats.php').then(
-      async (res) => await res.json()
+    fetch('https://fleshas.lt/php/analytics/masterServerLast30DaysStats.php').then(async (res) =>
+      (await res.json()).reverse()
     )
   );
 
