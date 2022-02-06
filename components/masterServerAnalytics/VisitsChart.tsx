@@ -11,6 +11,7 @@ import {
   Legend
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import React from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -85,4 +86,4 @@ const VisitsChart: FC = () => {
   );
 };
 
-export default VisitsChart;
+export default React.memo(VisitsChart);
