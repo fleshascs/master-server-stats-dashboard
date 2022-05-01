@@ -8,6 +8,11 @@ const navigation = [
     name: 'Master Server Stats',
     href: process.env.basePath + '/master-server-stats',
     current: true
+  },
+  {
+    name: 'CS-Boost',
+    href: process.env.basePath + '/cs-boost',
+    current: true
   }
 ];
 
