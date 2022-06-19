@@ -39,7 +39,7 @@ export default function Page() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      addUpdateServer({ ...values, serverId: pid })
+      addUpdateServer({ ...values, serverId: pid as string })
         .then(() => {
           snackbar.showSuccess('Saved!');
           refetch();

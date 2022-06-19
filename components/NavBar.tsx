@@ -43,7 +43,7 @@ export default function NavBar() {
                   <img className='block lg:hidden h-10 w-auto' src='192x192.png' alt='Workflow' />
                   <img
                     className='hidden lg:block h-10 w-auto'
-                    src={'/' + process.env.basePath + 'logo.png'}
+                    src={(process.env.basePath || '/') + 'logo.png'}
                     alt='Workflow'
                   />
                 </div>
