@@ -1,18 +1,17 @@
 import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 
 const navigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'AmxBans', href: '/amxbans', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'AmxBans', href: '/amxbans' },
   {
     name: 'Master Server Stats',
-    href: process.env.basePath + '/master-server-stats',
-    current: true
+    href: process.env.basePath ? process.env.basePath : '/'
   },
   {
     name: 'CS-Boost',
-    href: process.env.basePath + '/cs-boost',
-    current: true
+    href: process.env.basePath + '/cs-boost'
   }
 ];
 
@@ -21,6 +20,7 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+  const router = useRouter();
   return (
     <Disclosure as='nav' className='bg-gray-800'>
       {({ open }) => (
@@ -41,7 +41,11 @@ export default function NavBar() {
               <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start'>
                 <div className='flex-shrink-0 flex items-center'>
                   <img className='block lg:hidden h-10 w-auto' src='192x192.png' alt='Workflow' />
-                  <img className='hidden lg:block h-10 w-auto' src='logo.png' alt='Workflow' />
+                  <img
+                    className='hidden lg:block h-10 w-auto'
+                    src={'/' + process.env.basePath + 'logo.png'}
+                    alt='Workflow'
+                  />
                 </div>
                 <div className='hidden sm:block sm:ml-6'>
                   <div className='flex space-x-4'>
@@ -50,12 +54,12 @@ export default function NavBar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.href === router.pathname
                             ? 'bg-gray-900 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.href === router.pathname ? 'page' : undefined}
                       >
                         {item.name}
                       </a>
@@ -74,12 +78,12 @@ export default function NavBar() {
                   as='a'
                   href={item.href}
                   className={classNames(
-                    item.current
+                    item.href === router.pathname
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.href === router.pathname ? 'page' : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>

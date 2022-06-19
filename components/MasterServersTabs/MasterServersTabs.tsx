@@ -23,7 +23,8 @@ const TabTitle: FC<{ isLoading: boolean; isAlive: boolean; title: string }> = ({
 const serverList = [
   'fleshas.lt:27010',
   'masterserveris.audioklip.lt:27010',
-  'masterserveris2.audioklip.lt:27011'
+  'masterserveris2.audioklip.lt:27011',
+  'masterserveris3.audioklip.lt:27010'
 ];
 
 const MasterServersTabs: FC = () => {

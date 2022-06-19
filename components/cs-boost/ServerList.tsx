@@ -1,7 +1,9 @@
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import Card from '../Card';
+import { DATE_TIME_FORMAT } from './constants';
 
 interface Server {
   id: string;
@@ -47,7 +49,7 @@ export const ServerList: FC = () => {
               IP
             </th>
             <th scope='col' className='px-6 py-3'>
-              Purchase date
+              Boosted since
             </th>
             <th scope='col' className='px-6 py-3'>
               Boosted until
@@ -71,8 +73,14 @@ export const ServerList: FC = () => {
                 {server.hostname}
               </th>
               <td className='px-6 py-4'>{server.address}</td>
-              <td className='px-6 py-4'>{server.date_create}</td>
-              <td className='px-6 py-4'>{server.date_end}</td>
+              <td className='px-6 py-4'>
+                {dayjs.unix(Number(server.date_create)).format(DATE_TIME_FORMAT)}
+              </td>
+              <td className='px-6 py-4'>
+                {server.date_end === '0'
+                  ? 'Permanently'
+                  : dayjs.unix(Number(server.date_end)).format(DATE_TIME_FORMAT)}
+              </td>
               <td className='px-6 py-4 text-right'>
                 <Link href={'/cs-boost/' + server.id}>
                   <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
