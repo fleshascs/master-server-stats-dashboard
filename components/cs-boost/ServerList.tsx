@@ -26,7 +26,7 @@ interface Servers {
 }
 export const ServerList: FC = () => {
   const { isLoading, error, data } = useQuery<Servers, Error>('boosted-server', () =>
-    fetch('https://cs-boost.lt/api/servers.php').then((res) => res.json())
+    fetch('https://cs-boost.lt/api/servers.php?full=1').then((res) => res.json())
   );
 
   const title = 'Server List';
