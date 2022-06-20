@@ -20,9 +20,8 @@ const Card: FC<{ children: ReactNode; title: ReactNode; className?: string }> = 
         {title}
       </div>
       <div className='rounded-xl'>
-        <div className='shadow-sm  mt-8'>{children}</div>
+        <div className='mt-8'>{children}</div>
       </div>
-      <div className='inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5' />
     </div>
   );
 };

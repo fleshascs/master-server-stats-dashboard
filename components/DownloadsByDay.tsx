@@ -64,7 +64,7 @@ const DownloadsByDay: FC = () => {
   const chartData = buildData(data);
 
   return (
-    <Card title={title}>
+    <Card title={title} className='h-full'>
       <div className='flex w-full px-5 pb-4  text-white'>
         <Bar options={options} data={chartData} />
       </div>
