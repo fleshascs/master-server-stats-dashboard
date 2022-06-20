@@ -10,7 +10,7 @@ const navigation = [
     href: process.env.basePath ? process.env.basePath : '/'
   },
   {
-    name: 'CS-Boost',
+    name: 'Boost',
     href: process.env.basePath + '/cs-boost'
   }
 ];

@@ -3,7 +3,7 @@ import { ServerList } from '../../components/cs-boost/ServerList';
 export default function Page() {
   return (
     <>
-      <h2 className='text-3xl pt-10 pb-2'>CS Boost</h2>
+      <h2 className='text-3xl pt-10 pb-2'>Boosted servers list</h2>
       <div className='flex flex-col lg:flex-row mb-5 justify-end'>
         <a
           href={process.env.basePath + '/cs-boost' + '/add'}

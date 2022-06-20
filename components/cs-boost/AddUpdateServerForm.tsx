@@ -59,7 +59,9 @@ export const AddUpdateServerForm: FC<{
                 label='Boost end date'
                 value={values.boostedUntil}
                 onChange={(value) => {
-                  setFieldValue('boostedUntil', (value as unknown as Dayjs).format());
+                  // @ts-ignore
+                  setFieldValue('boostedUntil', Date.parse(value));
+                  // setFieldValue('boostedUntil', (value as unknown as Dayjs).format());
                 }}
                 renderInput={(params) => (
                   <TextField

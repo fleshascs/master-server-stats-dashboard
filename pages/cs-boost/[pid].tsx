@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { addUpdateServer, deleteServer } from '../../services/boost';
 import { useSnackbar } from '../../components/Snackbar/useSnackbar';
 import { AddUpdateServerForm } from '../../components/cs-boost/AddUpdateServerForm';
+import { EditableServerValues } from '../../components/cs-boost/types';
 
 const title = 'Server info';
 
@@ -26,7 +27,7 @@ export default function Page() {
   const snackbar = useSnackbar();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: EditableServerValues) => {
     addUpdateServer({ ...values, serverId: pid as string })
       .then(() => {
         snackbar.showSuccess('Saved!');
