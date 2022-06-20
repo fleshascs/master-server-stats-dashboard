@@ -1,5 +1,6 @@
 export interface EditableServerValues {
   serverIP: string;
-  boostedUntil: string;
+  boostedUntil: number;
   serverId?: string;
+  isPerm?: boolean;
 }

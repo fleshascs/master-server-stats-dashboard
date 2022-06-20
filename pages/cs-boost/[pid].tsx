@@ -1,19 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { useRouter } from 'next/router';
 import Card from '../../components/Card';
 import { useFetchServerInfo } from '../../components/utils';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { useFormik } from 'formik';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { DATE_TIME_FORMAT } from '../../components/cs-boost/constants';
 import dayjs from 'dayjs';
 import { addUpdateServer, deleteServer } from '../../services/boost';
-import { EditableServerValues } from '../../components/cs-boost/types';
-import { validationSchema } from '../../components/cs-boost/validationSchema';
 import { useSnackbar } from '../../components/Snackbar/useSnackbar';
+import { AddUpdateServerForm } from '../../components/cs-boost/AddUpdateServerForm';
 
 const title = 'Server info';
 
@@ -32,31 +26,16 @@ export default function Page() {
   const snackbar = useSnackbar();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const formik = useFormik<EditableServerValues>({
-    initialValues: {
-      serverIP: '',
-      boostedUntil: ''
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      addUpdateServer({ ...values, serverId: pid as string })
-        .then(() => {
-          snackbar.showSuccess('Saved!');
-          refetch();
-        })
-        .catch(() => {
-          snackbar.showError('Failed to save');
-        });
-    }
-  });
-
-  useEffect(() => {
-    if (infoIsLoading || infoError) return;
-    formik.setValues({
-      serverIP: server.address,
-      boostedUntil: dayjs.unix(Number(server.date_create)).format()
-    });
-  }, [infoIsLoading, infoError]);
+  const onSubmit = (values) => {
+    addUpdateServer({ ...values, serverId: pid as string })
+      .then(() => {
+        snackbar.showSuccess('Saved!');
+        refetch();
+      })
+      .catch(() => {
+        snackbar.showError('Failed to save');
+      });
+  };
 
   const openDeleteDialog = () => {
     confirm({ description: `This server will be permanently deleted.` }).then(() => {
@@ -76,7 +55,7 @@ export default function Page() {
 
   return (
     <>
-      <h2 className='text-3xl pt-10 pb-2'>Server details</h2>
+      <h2 className='text-3xl pt-10 pb-6'>Server details</h2>
 
       <div className='flex flex-col lg:flex-row mb-10 justify-between'>
         {!isEditMode ? (
@@ -109,38 +88,15 @@ export default function Page() {
           </ul>
         ) : null}
         {isEditMode ? (
-          <form className='max-w-sm' onSubmit={formik.handleSubmit}>
-            <Stack spacing={2} direction='column'>
-              <TextField
-                name='serverIP'
-                label='Server IP'
-                value={formik.values.serverIP}
-                onChange={formik.handleChange}
-                error={formik.touched.serverIP && Boolean(formik.errors.serverIP)}
-                helperText={formik.touched.serverIP && formik.errors.serverIP}
-              />
-              <DateTimePicker
-                label='Boost end date'
-                value={formik.values.boostedUntil}
-                onChange={(value) => {
-                  formik.setFieldValue('boostedUntil', Date.parse(value));
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    error={formik.touched.boostedUntil && Boolean(formik.errors.boostedUntil)}
-                    name='boostedUntil'
-                    helperText={formik.touched.boostedUntil && formik.errors.boostedUntil}
-                  />
-                )}
-              />
-              <Button color='primary' variant='outlined' fullWidth type='submit'>
-                Save
-              </Button>
-            </Stack>
-          </form>
+          <AddUpdateServerForm
+            initialValues={{
+              serverIP: server.address,
+              boostedUntil: Number(server.date_end) * 1000, //dayjs.unix(Number(server.date_create)).format()
+              isPerm: server.date_end === '0'
+            }}
+            onSubmit={onSubmit}
+          />
         ) : null}
-
         <div className='flex flex-col space-y-4'>
           <button
             type='button'
