@@ -40,7 +40,11 @@ export default function NavBar() {
               </div>
               <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start'>
                 <div className='flex-shrink-0 flex items-center'>
-                  <img className='block lg:hidden h-10 w-auto' src='192x192.png' alt='Workflow' />
+                  <img
+                    className='block lg:hidden h-10 w-auto'
+                    src={process.env.basePath + '/192x192.png'}
+                    alt='Workflow'
+                  />
                   <img
                     className='hidden lg:block h-10 w-auto'
                     src={process.env.basePath + '/logo.png'}

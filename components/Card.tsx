@@ -10,7 +10,7 @@ const Card: FC<{ children: ReactNode; title: ReactNode; className?: string }> = 
     <div
       className={clsx(
         className,
-        'not-prose bg-gray-50 border border-black/5 overflow-hidden dark:bg-gray-800/25'
+        'not-prose bg-gray-50 border border-black/5 overflow-hidden dark:bg-gray-800/25 h-full'
       )}
     >
       <div

@@ -18,7 +18,7 @@ export const QueryMasterServerPlayers: FC<{ server: string; isAlive: boolean }> 
     <Card title={`${server} is ${isAlive || data ? 'online' : 'offline'}`}>
       <div>
         <h4 className='p-3 '>Server list:</h4>
-        <ul className='list-decimal list-inside overflow-y-auto max-h-96 p-3'>
+        <ul className='list-decimal list-inside overflow-y-auto p-3'>
           {data.map((ip) => (
             <li className='p-1' key={ip}>
               {ip}

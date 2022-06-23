@@ -69,7 +69,7 @@ const MasterServersTabs: FC = () => {
         </Tabs>
         <AddServerInput onAdd={(s) => setServers((servers) => [...servers, s])} />
       </div>
-      <div className='flex flex-col lg:flex-row lg:space-x-4  mb-10'>
+      <div className='flex flex-col lg:flex-row lg:space-x-4  mb-10 max-h-full'>
         <div className='basis-1/3 rounded'>
           <TabPanel value={activeTab} index={0}>
             <MasterServerVisitsByCountry />
