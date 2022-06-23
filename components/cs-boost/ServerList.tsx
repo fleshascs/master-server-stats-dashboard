@@ -54,9 +54,6 @@ export const ServerList: FC = () => {
             <th scope='col' className='px-6 py-3'>
               Boosted until
             </th>
-            <th scope='col' className='px-6 py-3'>
-              <span className='sr-only'>Edit</span>
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -70,7 +67,11 @@ export const ServerList: FC = () => {
                 scope='row'
                 className='px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap'
               >
-                {server.hostname}
+                <Link href={'/cs-boost/' + server.id}>
+                  <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
+                    {server.hostname}
+                  </a>
+                </Link>
               </th>
               <td className='px-6 py-4'>{server.address}</td>
               <td className='px-6 py-4'>
@@ -80,13 +81,6 @@ export const ServerList: FC = () => {
                 {server.date_end === '0'
                   ? 'Permanently'
                   : dayjs.unix(Number(server.date_end)).format(DATE_TIME_FORMAT)}
-              </td>
-              <td className='px-6 py-4 text-right'>
-                <Link href={'/cs-boost/' + server.id}>
-                  <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
-                    Edit
-                  </a>
-                </Link>
               </td>
             </tr>
           ))}
