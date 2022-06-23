@@ -69,7 +69,7 @@ export const ServerList: FC = () => {
               >
                 <Link href={'/cs-boost/' + server.id}>
                   <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
-                    {server.hostname || 'No server data yet'}
+                    {server.hostname}
                   </a>
                 </Link>
               </th>
