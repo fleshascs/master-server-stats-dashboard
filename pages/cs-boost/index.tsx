@@ -7,7 +7,10 @@ const RevenueAmount: FC<{ amount: number; isLoading: boolean }> = ({ amount, isL
   <div className='text-md font-bold px-5 pb-5 text-blue-600'>
     €{' '}
     {isLoading ? (
-      <img className='h-3 w-3 mr-1 animate-spin' src={require('../../images/loading.svg')} />
+      <img
+        className='h-3 w-3 align-baseline animate-spin inline-block'
+        src={require('../../images/loading.svg')}
+      />
     ) : (
       amount / 100
     )}{' '}
