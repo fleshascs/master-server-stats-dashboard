@@ -12,7 +12,7 @@ const RevenueAmount: FC<{ amount: number; isLoading: boolean }> = ({ amount, isL
         src={require('../../images/loading.svg')}
       />
     ) : (
-      amount / 100
+      (amount / 100).toFixed(2)
     )}{' '}
     EUR.
   </div>
