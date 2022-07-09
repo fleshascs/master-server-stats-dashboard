@@ -1,9 +1,34 @@
+import { useQuery } from 'react-query';
 import { ServerList } from '../../components/cs-boost/ServerList';
+import Card from '../../components/Card';
+import { FC } from 'react';
+
+const RevenueAmount: FC<{ amount: number }> = ({ amount }) => (
+  <div className='text-md font-bold px-5 pb-5 text-blue-600'>€ {amount / 100} EUR.</div>
+);
 
 export default function Page() {
+  const { data } = useQuery<{ current_month: number; current_year: number }, Error>(
+    ['ms-revenue'],
+    () =>
+      fetch(process.env.apiUrl + '/php/api/servers/control/ms_revenue.php').then((res) =>
+        res.json()
+      )
+  );
   return (
     <>
-      <h2 className='text-3xl pt-10 pb-2'>Boosted servers list</h2>
+      <h2 className='text-3xl  pt-10 pb-2'>Revenue</h2>
+      <div className='flex  space-x-4 pt-5 max-w-md'>
+        <Card title="This Month's revenue" className='flex-1'>
+          <RevenueAmount amount={data?.current_month ?? 0} />
+        </Card>
+
+        <Card title="This Year's revenue" className='flex-1'>
+          <RevenueAmount amount={data?.current_year ?? 0} />
+        </Card>
+      </div>
+
+      <h2 className='text-3xl pt-5 pb-2'>Boosted servers list</h2>
       <div className='flex flex-col md:flex-row mb-5 justify-end'>
         <a
           href={process.env.basePath + '/cs-boost' + '/add'}
