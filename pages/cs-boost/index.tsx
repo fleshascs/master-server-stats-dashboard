@@ -3,30 +3,41 @@ import { ServerList } from '../../components/cs-boost/ServerList';
 import Card from '../../components/Card';
 import { FC } from 'react';
 
-const RevenueAmount: FC<{ amount: number }> = ({ amount }) => (
-  <div className='text-md font-bold px-5 pb-5 text-blue-600'>€ {amount / 100} EUR.</div>
+const RevenueAmount: FC<{ amount: number; isLoading: boolean }> = ({ amount, isLoading }) => (
+  <div className='text-md font-bold px-5 pb-5 text-blue-600'>
+    €{' '}
+    {isLoading ? (
+      <img className='h-3 w-3 mr-1 animate-spin' src={require('../../images/loading.svg')} />
+    ) : (
+      amount / 100
+    )}{' '}
+    EUR.
+  </div>
 );
 
 export default function Page() {
-  const { data } = useQuery<{ current_month: number; current_year: number }, Error>(
-    ['ms-revenue'],
-    () =>
-      fetch(process.env.apiUrl + '/php/api/servers/control/ms_revenue.php').then((res) =>
-        res.json()
-      )
+  const { isLoading, error, data } = useQuery<
+    { current_month: number; current_year: number },
+    Error
+  >(['ms-revenue'], () =>
+    fetch(process.env.apiUrl + '/php/api/servers/control/ms_revenue.php').then((res) => res.json())
   );
   return (
     <>
-      <h2 className='text-3xl  pt-10 pb-2'>Revenue</h2>
-      <div className='flex  space-x-4 pt-5 max-w-md'>
-        <Card title="This Month's revenue" className='flex-1'>
-          <RevenueAmount amount={data?.current_month ?? 0} />
-        </Card>
+      {error ? null : (
+        <>
+          <h2 className='text-3xl  pt-10 pb-2'>Revenue</h2>
+          <div className='flex  space-x-4 pt-5 max-w-md'>
+            <Card title="This Month's revenue" className='flex-1'>
+              <RevenueAmount amount={data?.current_month} isLoading={isLoading} />
+            </Card>
 
-        <Card title="This Year's revenue" className='flex-1'>
-          <RevenueAmount amount={data?.current_year ?? 0} />
-        </Card>
-      </div>
+            <Card title="This Year's revenue" className='flex-1'>
+              <RevenueAmount amount={data?.current_year} isLoading={isLoading} />
+            </Card>
+          </div>
+        </>
+      )}
 
       <h2 className='text-3xl pt-5 pb-2'>Boosted servers list</h2>
       <div className='flex flex-col md:flex-row mb-5 justify-end'>
