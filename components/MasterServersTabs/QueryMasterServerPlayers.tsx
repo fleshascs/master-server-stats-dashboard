@@ -4,7 +4,7 @@ import Card from '../Card';
 
 async function* getServerDetails(ips: string[]) {
   for (const ip of ips) {
-    const details = await fetch('https://cs-boost.lt/api/server_info_by_ip.php?ip=' + ip).then(
+    const details = await fetch('https://cs-boost.lt/api/server_info_by_ip.php?nl=1&ip=' + ip).then(
       (res) => res.json()
     );
     yield details.server;
